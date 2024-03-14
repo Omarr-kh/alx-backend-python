@@ -3,6 +3,6 @@ import math
 """ type-annotated floor function """
 
 
-def concat(n: float) -> int:
+def floor(n: float) -> int:
     """ returns floor of n """
     return math.floor(n)
