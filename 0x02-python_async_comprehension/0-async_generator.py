@@ -5,7 +5,7 @@ import random
 from typing import Generator, Float
 
 
-def async_generator() -> Generator[Float]:
+def async_generator() -> Generator[Float, None, None]:
     """ wait 1 sec then yield random number """
     for _ in range(10):
         await asyncio.sleep(1)
