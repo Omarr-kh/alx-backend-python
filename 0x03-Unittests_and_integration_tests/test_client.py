@@ -29,8 +29,8 @@ class TestGithubOrgClient(unittest.TestCase):
     def test_org(self, org: str, res: Dict, mocked: MagicMock) -> None:
         """ Tests the org method. """
         mocked.return_value = MagicMock(return_value=res)
-        gh_org_client = GithubOrgClient(org)
-        self.assertEqual(gh_org_client.org(), res)
+        org_client = GithubOrgClient(org)
+        self.assertEqual(org_client.org(), res)
         mocked.assert_called_once_with(
             "https://api.github.com/orgs/{}".format(org)
         )
@@ -70,3 +70,13 @@ class TestGithubOrgClient(unittest.TestCase):
 
             self.assertEqual(test1, test2)
             self.assertEqual(test1, repos_names)
+
+    @parameterized.expand([
+        ({'license': {'key': "bsd"}}, "bsd", True),
+        ({'license': {'key': "bsl-1.0"}}, "bsd", False),
+    ])
+    def test_has_license(self, repo: Dict, key: str, expected: bool) -> None:
+        """ unittests for license """
+        org_client = GithubOrgClient("google")
+        has_license = org_client.has_license(repo, key)
+        self.assertEqual(has_license, expected)
